@@ -72,29 +72,29 @@
             mui.currentWebview.show();
 
 
-            var onOpenNotification = function(event) {
-              var alertContent;
-              if(plus.os.name == "Android") {
-                  alertContent = window.plus.Push.openNotification.alert;
-              } else {
-                  alertContent = event.aps.alert;
-              }
-              mui.alert("Open notification:" + alertContent);
+            var onOpenNotification = function (event) {
+                var alertContent;
+                if (plus.os.name == "Android") {
+                    alertContent = window.plus.Push.openNotification.alert;
+                } else {
+                    alertContent = event.aps.alert;
+                }
+                mui.alert("Open notification:" + alertContent);
             }
 
-            var onReceiveNotification = function(event) {
-              var alertContent;
-              if(plus.os.name == "Android") {
-                  alertContent=window.plus.Push.receiveNotification.alert;
-              } else {
-                  alertContent = event.aps.alert;
-              }
-              mui.alert("Open notification:" + alertContent);
+            var onReceiveNotification = function (event) {
+                var alertContent;
+                if (plus.os.name == "Android") {
+                    alertContent = window.plus.Push.receiveNotification.alert;
+                } else {
+                    alertContent = event.aps.alert;
+                }
+                mui.alert("Open notification:" + alertContent);
             }
 
             document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
 
-document.addEventListener("jpush.openNotification", onOpenNotification, false);
+            document.addEventListener("jpush.openNotification", onOpenNotification, false);
         })
         mui.ready(function () {
             jQuery("body").on('click', '.mui-btn', function (e) {
@@ -250,7 +250,7 @@ document.addEventListener("jpush.openNotification", onOpenNotification, false);
                                     } else if (data.code == 500 && data.msg == "令牌已经失效,请重新登录") {
                                         plus.nativeUI.toast('网络连接错误，请重新登录');
                                         mui.openWindow({
-                                            url: '../login.html',
+                                            url: 'login.html',
                                             show: {
                                                 autoShow: true
                                             }
@@ -264,7 +264,7 @@ document.addEventListener("jpush.openNotification", onOpenNotification, false);
                                     console.log(type);
                                     plus.nativeUI.toast('网络连接错误，请重新登录');
                                     mui.openWindow({
-                                        url: '../login.html',
+                                        url: 'login.html',
                                         show: {
                                             autoShow: true
                                         }
