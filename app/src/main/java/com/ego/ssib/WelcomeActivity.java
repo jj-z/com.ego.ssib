@@ -117,11 +117,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen(){
         prefManager.setFirstTimeLaunch(false);
+//        startActivity(new Intent(this,MainActivity.class));
         startActivity(new Intent(this,io.dcloud.PandoraEntry.class));
-//        Intent intent = new Intent(Activity.this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
 
+//        startActivity(new Intent(MainActivity.this,io.dcloud.PandoraEntry.class));
+        finish();
 
     }
 

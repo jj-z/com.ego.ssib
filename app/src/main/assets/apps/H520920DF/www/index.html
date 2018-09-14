@@ -131,6 +131,56 @@
 
         plus.screen.lockOrientation("portrait-primary");
 
+
+//        获取通知栏消息
+        mui.alert("开始");
+        var onOpenNotification = function(event) {
+            mui.alert("openNotification+" + JSON.stringify(event))
+            var alertContent;
+            if(plus.os.name == "Android") {
+                alertContent = window.plus.Push.openNotification.alert;
+            } else {
+                alertContent = event.aps.alert;
+            }
+            mui.alert("Open notification:" + alertContent);
+
+        };
+        document.addEventListener("jpush.openNotification", onOpenNotification, false);
+        mui.alert(JSON.stringify(window.plus.Push.openNotification));
+        var onReceiveNotification = function(event) {
+            mui.alert("receiveNotification+"  + JSON.stringify(event))
+            var alertContent;
+            if(plus.os.name == "Android") {
+                alertContent=window.plus.Push.receiveNotification.alert;
+            } else {
+                alertContent = event.aps.alert;
+            }
+            mui.alert("Open notification:" + alertContent);
+        };
+        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+        mui.alert(JSON.stringify(window.plus.Push.receiveNotification));
+
+
+        mui.alert("结束");
+        var onReceiveMessage = function(event) {
+            try {
+                var message;
+                if(plus.os.name == "Android") {
+                    message = window.plus.Push.receiveMessage.message;
+                } else {
+                    message = event.content;
+                }
+            } catch(exception) {
+                mui.alert("JPushPlugin:onReceiveMessage-->" + exception);
+            }
+            mui.alert(JSON.stringify(message));
+        }
+
+        document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+
+
+
+
         //					判断是否登陆
         if (localStorage.getItem("token")) {
             mui.toast('登陆验证通过', {
@@ -166,36 +216,6 @@
         plus.nativeUI.closeWaiting();
         //显示当前页面
         mui.currentWebview.show();
-//        获取通知栏消息
-//        onOpenNotification();
-//        onReceiveNotification();
-        function onOpenNotification(event) {
-            mui.toast("onOpenNotification+" + JSON.stringify(event))
-            var alertContent;
-            if (plus.os.name == "Android") {
-                alertContent = window.plus.Push.openNotification.alert;
-            } else {
-                alertContent = event.aps.alert;
-            }
-            mui.alert("Open notification:" + alertContent);
-        }
-        document.addEventListener("jpush.openNotification", onOpenNotification, false);
-        function onReceiveNotification(event) {
-            mui.toast("onReceiveNotification+"  + JSON.stringify(event))
-            var alertContent;
-            if (plus.os.name == "Android") {
-                alertContent = window.plus.Push.receiveNotification.alert;
-            } else {
-                alertContent = event.aps.alert;
-            }
-            mui.alert("Open notification:" + alertContent);
-        }
-        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-
-
-
-
-
         var deviceMsg;
         //			上拉加载
         function pullupRefresh() {
