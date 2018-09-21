@@ -133,51 +133,33 @@
 
 
 //        获取通知栏消息
-        mui.alert("开始");
-        var onOpenNotification = function(event) {
-            mui.alert("openNotification+" + JSON.stringify(event))
-            var alertContent;
-            if(plus.os.name == "Android") {
-                alertContent = window.plus.Push.openNotification.alert;
+        var openNotification = function () {
+            var content
+            if (plus.os.name == 'iOS') {
+                content = plus.Push.openNotification.aps;
             } else {
-                alertContent = event.aps.alert;
+                content = plus.Push.openNotification;
+                plus.Push.clearLaunchAppCacheNotification();
             }
-            mui.alert("Open notification:" + alertContent);
+            mui.confirm( content.alert,'消息通知', ['是', '否'], function(e) {
 
-        };
-        document.addEventListener("jpush.openNotification", onOpenNotification, false);
-        mui.alert(JSON.stringify(window.plus.Push.openNotification));
-        var onReceiveNotification = function(event) {
-            mui.alert("receiveNotification+"  + JSON.stringify(event))
-            var alertContent;
-            if(plus.os.name == "Android") {
-                alertContent=window.plus.Push.receiveNotification.alert;
-            } else {
-                alertContent = event.aps.alert;
-            }
-            mui.alert("Open notification:" + alertContent);
-        };
-        document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-        mui.alert(JSON.stringify(window.plus.Push.receiveNotification));
-
-
-        mui.alert("结束");
-        var onReceiveMessage = function(event) {
-            try {
-                var message;
-                if(plus.os.name == "Android") {
-                    message = window.plus.Push.receiveMessage.message;
-                } else {
-                    message = event.content;
+                if(e.index == 0) {
+                    mui.openWindow({
+                        url: 'html/push.html',
+                        show: {
+                            aniShow: 'pop-in'
+                        },
+                        waiting: {
+                            autoShow: false
+                        },
+                        extras: {
+                            data: content
+                        }
+                    });
                 }
-            } catch(exception) {
-                mui.alert("JPushPlugin:onReceiveMessage-->" + exception);
-            }
-            mui.alert(JSON.stringify(message));
+            }, 'div')
         }
-
-        document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
-
+        document.addEventListener("jpush.openNotification", openNotification, false);
 
 
 

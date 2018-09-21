@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>推送详情</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="../css/mui.css" rel="stylesheet"/>
+    <link href="../css/icons-extra.css"/>
+    <style>
+        .font10 {
+            font-size: 10px !important;
+            color: #8f8f94;
+            float: right;
+            margin-right: 10px;
+        }
+        .pushMsg{
+            margin: 2px auto 0;
+        }
+    </style>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">通知详情</h1>
+</header>
+<div class="mui-content">
+    <div class="mui-card">
+        <div class="mui-card-header mui-card-media">
+            <img src="../images/logo.png">
+            <div class="mui-media-body">
+                <span class="pushStats">离线信息</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font10">10分钟前</span>
+                <p  class="pushMsg">XXX</p>
+            </div>
+        </div>
+    </div>
+    <div class="mui-card">
+        <div class="mui-card-header mui-card-media">
+            <img src="../images/logo.png">
+            <div class="mui-media-body">
+                <span class="pushStats">离线信息</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font10">10分钟前</span>
+                <p  class="pushMsg">XXX</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../js/mui.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/jpush.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    mui.init()
+    mui.plusReady(function () {
+
+        //关闭等待框
+        plus.nativeUI.closeWaiting();
+        //显示当前页面
+        mui.currentWebview.show();
+
+        var content = plus.webview.currentWebview().data;
+        mui.alert(JSON.stringify(content));
+        jQuery('.pushMsg').html(content.alert);
+
+        jQuery('.pushStats').html("离线信息");
+
+
+
+        var receiveNotification = function (event) {
+            var content
+            if (plus.os.name == 'iOS') {
+                content = window.plus.Push.receiveNotification.aps.alert
+            } else {
+                content = window.plus.Push.receiveNotification.alert
+            }
+            mui.alert("---"+JSON.stringify(content));
+            $("#notificationResult").html(content)
+        }
+
+        var openNotification = function () {
+            var content
+            if (plus.os.name == 'iOS') {
+                content = plus.Push.openNotification.aps.alert
+            } else {
+                content = plus.Push.openNotification.alert
+                plus.Push.clearLaunchAppCacheNotification();
+            }
+            mui.alert("---"+JSON.stringify(content));
+            $("#notificationResult").html(content)
+        }
+        document.addEventListener("jpush.receiveNotification", receiveNotification, false)
+        document.addEventListener("jpush.openNotification", openNotification, false)
+    });
+</script>
+</html>

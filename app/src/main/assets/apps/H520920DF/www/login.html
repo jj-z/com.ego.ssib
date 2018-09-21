@@ -71,30 +71,6 @@
             //显示当前页面
             mui.currentWebview.show();
 
-
-            var onOpenNotification = function (event) {
-                var alertContent;
-                if (plus.os.name == "Android") {
-                    alertContent = window.plus.Push.openNotification.alert;
-                } else {
-                    alertContent = event.aps.alert;
-                }
-                mui.alert("Open notification:" + alertContent);
-            }
-
-            var onReceiveNotification = function (event) {
-                var alertContent;
-                if (plus.os.name == "Android") {
-                    alertContent = window.plus.Push.receiveNotification.alert;
-                } else {
-                    alertContent = event.aps.alert;
-                }
-                mui.alert("Open notification:" + alertContent);
-            }
-
-            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-
-            document.addEventListener("jpush.openNotification", onOpenNotification, false);
         })
         mui.ready(function () {
             jQuery("body").on('click', '.mui-btn', function (e) {
@@ -215,10 +191,9 @@
                                     //服务器返回响应，根据响应结果，分析是否登录成功；
                                     console.log(JSON.stringify(data));
                                     if (data.code == 0) {
-                                        setTagsWithAlias();
-                                        function setTagsWithAlias() {
-                                            plus.Push.setTagsWithAlias([], data.data.userId)
-                                        };
+
+                                        plus.Push.setTagsWithAlias([], data.data.userId);
+
                                         document.addEventListener("jpush.setTagsWithAlias", onAliasAndTagsSet, false);
                                         function onAliasAndTagsSet(event) {
                                             var result = "result code: " + event.arguments.resultCode + " "
